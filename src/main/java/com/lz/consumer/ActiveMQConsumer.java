@@ -14,7 +14,7 @@ public class ActiveMQConsumer {
             connection = activeMQConnectionFactory.createConnection();
             connection.start();
             // 2、创建session
-            Session session = connection.createSession(true, Session.SESSION_TRANSACTED);
+            Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
             // dothing -------------------------------
             Queue queue = session.createQueue("queue-01");
             //创建消费者
@@ -36,7 +36,7 @@ public class ActiveMQConsumer {
 
             //end ------------------------------
             // 3、提交session
-            session.commit();
+            // session.commit();
             // 关闭session
             session.close();
         } catch (JMSException e) {

@@ -14,12 +14,12 @@ public class ActiveMQProvider {
             connection = activeMQConnectionFactory.createConnection();
             connection.start();
             // 2、创建session
-            Session session = connection.createSession(true, Session.SESSION_TRANSACTED);
+            Session session = connection.createSession(false, Session.CLIENT_ACKNOWLEDGE);
             // 创建destination
             Queue queue = session.createQueue("queue-01");
             // 创建producer
             MessageProducer producer = session.createProducer(queue);
-            producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
+            producer.setDeliveryMode(DeliveryMode.PERSISTENT);
             // dothing -------------------------------
             //创建message
             TextMessage textMessage = session.createTextMessage("hello我是provider1");
@@ -28,7 +28,7 @@ public class ActiveMQProvider {
 
 
             // 3、提交session
-            session.commit();
+            // session.commit();
             // 关闭session
             session.close();
             // 关闭连接

@@ -13,12 +13,13 @@ public class ActiveMTProvider {
         try {
             connection = activeMQConnectionFactory.createConnection();
             connection.start();
-            // 2、创建session
+            // 2、创建session，此处如果为true 事务方式处理，如果不提交，activemq不会记录被消费
             Session session = connection.createSession(true, Session.SESSION_TRANSACTED);
             // dothing -------------------------------
             Topic topic = session.createTopic("topic-01");
             // 创建producer
             MessageProducer producer = session.createProducer(topic);
+            producer.setDeliveryMode(DeliveryMode.PERSISTENT);
             //创建message
             TextMessage textMessage = session.createTextMessage("hello ,my name is topic 1");
             producer.send(textMessage);
